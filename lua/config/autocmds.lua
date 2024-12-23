@@ -1,5 +1,8 @@
 -- Set color theme
-vim.cmd("colorscheme tokyonight")
+vim.cmd.colorscheme 'tokyonight-moon'
+
+-- Load Telescope extensions
+require'telescope'.load_extension('project')
 
 -- Highlight yanked text
 vim.api.nvim_create_autocmd("TextYankPost", {
@@ -17,4 +20,18 @@ vim.api.nvim_create_autocmd("TermOpen", {
     vim.opt_local.number = false
     vim.opt_local.relativenumber = false
   end
+})
+
+-- Reload file in buffer if changed have been made
+vim.api.nvim_create_autocmd({"BufEnter", "FocusGained"}, {
+  callback = function()
+    vim.cmd("checktime")
+  end,
+})
+
+-- Disable LSP diagnostics
+vim.api.nvim_create_autocmd("LspAttach", {
+    callback = function(args)
+        vim.diagnostic.disable(args.buf)
+    end,
 })

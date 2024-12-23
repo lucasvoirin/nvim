@@ -7,12 +7,12 @@ return{
        -- Whether a repl should be discarded or not
        scratch_repl = true,
        -- Your repl definitions come here
-       --repl_definition = {
-        --python = {
-         --command = {"bash"},
-         --format = require("iron.fts.common").bracketed_paste_python
-        --}
-       --},
+       repl_definition = {
+        python = {
+         command = {"bash"},
+         format = require("iron.fts.common").bracketed_paste_python
+        }
+       },
        -- How the repl window will be displayed
        -- See below for more information
        repl_open_cmd = require('iron.view').split.vertical.botright(0.40),

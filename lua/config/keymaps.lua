@@ -1,12 +1,17 @@
-local wk = require 'which-key'
-wk.add({
+require 'which-key'.add({
   { "<leader>o", "<CMD>lua require('oil').toggle_float()<CR>", desc = "Oil"},
+  { "<leader>g", "<CMD>lua Snacks.lazygit.open(opts)<CR>", desc = "Lazygit"},
   { "<leader>f", group = "Find"},
-  { "<leader>fh", "<cmd>Telescope help_tags<cr>", desc = "Find Help" },
+  { "<leader>fh", "<cmd>Telescope help_tags<cr>", desc = "Help" },
+  { "<leader>fp", "<CMD>lua require'telescope'.extensions.project.project{}<CR>", desc = "Project"},
+  { "<leader>fr", "<CMD>Telescope zotero<CR>", desc = "Zotero Reference"},
+  { "<leader>t", group = "Toggle"},
 })
 
 -- Toggle light/dark theme
-Snacks.toggle.option("background", { off = "light", on = "dark" , name = "Dark Background"}):map("<leader>t")
+Snacks.toggle.option("background", { off = "dark", on = "light" , name = "Light Background"}):map("<leader>tb")
+Snacks.toggle.diagnostics():map("<leader>td")
+Snacks.toggle.option("relativenumber", { name = "Relative Number" }):map("<leader>tl")
 
 -- Resize with arrows
 vim.keymap.set("n", "<C-Up>", ":resize -2<CR>", { silent = true })
@@ -32,7 +37,3 @@ vim.keymap.set("n", "<C-h>", "<C-w><C-h>", { desc = "Move focus to the left wind
 vim.keymap.set("n", "<C-l>", "<C-w><C-l>", { desc = "Move focus to the right window" })
 vim.keymap.set("n", "<C-j>", "<C-w><C-j>", { desc = "Move focus to the lower window" })
 vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper window" })
-
-
-vim.keymap.set("n", "<C-s>", "<PLug>1REPLSendLine")
-vim.keymap.set("n", "<C-s>", "<Plug>1REPLSendVisual")

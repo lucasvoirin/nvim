@@ -3,7 +3,7 @@
 This is my Neovim config! It is built from scratch but heavily inspired by [nvim-lua/kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim),
 [quarto-nvim-kickstarter](https://github.com/jmbuhr/quarto-nvim-kickstarter) and [LazyVim](http://www.lazyvim.org/).
 
-I'm using Neovim as a scientific IDE for data science (mainly with R, Python and Julia) and writing (with LaTeX and Quarto).
+I'm using Neovim as an IDE for data science (with R, Python and Julia) and writing (with LaTeX and Quarto).
 
 ## Structure
 
@@ -43,21 +43,29 @@ located in the `./lua/plugins/` directory and automatically loaded from `./lua/c
 
 Here is a list of main plugins:
 
-| Plugin                                                             | Description       |
-|--------------------------------------------------------------------|-------------------|
-| [lazy](https://github.com/folke/lazy.nvim)                         | plugin manager    |
-| [oil](https://github.com/stevearc/oil.nvim)                        | filesystem editor |
-| [which-key](https://github.com/folke/which-key.nvim)               | keymaps memo      |
-| [telescope](https://github.com/nvim-telescope/telescope.nvim)      | search engine     |
-| [lualine](https://github.com/nvim-lualine/lualine.nvim)            | status bar        |
-| [nvim-web-devicons](https://github.com/nvim-tree/nvim-web-devicons)| set of icons      |
-| [tokyonight](https://github.com/folke/tokyonight.nvim)             | color theme       |
-| [noice](https://github.com/folke/noice.nvim)                       | improved ui       |
-| [snacks](https://github.com/folke/snacks.nvim)                     | misc utilities    |
+| Plugin                                                                        | Description       |
+|-------------------------------------------------------------------------------|-------------------|
+| [lazy](https://github.com/folke/lazy.nvim)                                    | plugin manager    |
+| [oil](https://github.com/stevearc/oil.nvim)                                   | filesystem editor |
+| [which-key](https://github.com/folke/which-key.nvim)                          | keymaps memo      |
+| [telescope](https://github.com/nvim-telescope/telescope.nvim)                 | search engine     |
+| [lualine](https://github.com/nvim-lualine/lualine.nvim)                       | status bar        |
+| [nvim-web-devicons](https://github.com/nvim-tree/nvim-web-devicons)           | set of icons      |
+| [tokyonight](https://github.com/folke/tokyonight.nvim)                        | color theme       |
+| [noice](https://github.com/folke/noice.nvim)                                  | improved ui       |
+| [snacks](https://github.com/folke/snacks.nvim)                                | misc utilities    |
+| [telescope-project](https://github.com/nvim-telescope/telescope-project.nvim) | project manager   |
+| [nvim-cmp](https://github.com/hrsh7th/nvim-cmp)                               | completion engine |
 
 ### Custom
 
 `./lua/custom/` contains custom lua scripts adding features to Neovim. Scripts in this directory are loaded from `./init.lua`.
+
+Here is a list of custom features:
+
+| File                    | Description                                      |
+|-------------------------|--------------------------------------------------|
+| `floating-terminal.lua` | Add a terminal popup accessible anywhere anytime |
 
 ## Usage
 
@@ -65,18 +73,26 @@ Here is a list of main plugins:
 
 This section is used as a roadmap.
 
-- [x] Navigation and editing file system with Oil
+- [x] Navigation and edition of file system with Oil
 - [x] Opening Floating Terminal anywhere anytime
-- [ ] autocomplete witn nvim-cmp
-- [ ] lsp
-- [ ] R, Python and Julia REPL
-- [ ] git integration with snacks and gitsigns
-- [ ] quarto integration
+- [x] Manage projects
+- [x] autocomplete witn nvim-cmp
+- [x] lsp
+- [x] R, Python and Julia REPL
+- [x] git integration with snacks and gitsigns
+- [x] zotero integration with telescope
 
 ### Memo
 
-| Keymap    | Action                   |
-|-----------|--------------------------|
-|`<space>o` | Toggle Oil               |
-|`<c-\>`    | Toggle Floating Terminal |
+| Keymap     | Action                   |
+|------------|--------------------------|
+|`<space>o`  | Open Oil                 |
+|`<space>g`  | Open LazyGit             |
+|`<space>fh` | Find Help                |
+|`<space>fp` | Find Project             |
+|`<space>fr` | Find Zotero Reference    |
+|`<c-\>`     | Toggle Floating Terminal |
+|`<space>tb` | Toggle Light Background  |
+|`<space>tl` | Toggle Relative Number   |
+|`<space>td` | Toggle LSP Diagnostics   |
 
