@@ -11,7 +11,7 @@ return {
     local cmp = require('cmp')
     return {
       completion = {
-	completeopt = 'menu,menuone,noinsert' 
+	completeopt = 'menu,menuone,noinsert'
       },
       sources = {
 	{ name = 'nvim_lsp'},
@@ -38,9 +38,9 @@ return {
 	fields = { "abbr", "menu", "kind" },
 	format = function(entry, item)
 	  local icons = {
-	    Text = "", Method = "", Function = "", Constructor = "", Field = "",
+	    Text = "", Method = "", Function = "󰊕", Constructor = "", Field = "",
     	    Variable = "", Class = "", Interface = "", Module = "", Property = "",
-	    Unit = "", Value = "", Enum = "", Keyword = "", Snippet = "", Color = "",
+	    Unit = "", Value = "", Enum = "", Keyword = "", Snippet = "", Color = "",
 	    File = "", Reference = "", Folder = "", EnumMember = "", Constant = "π",
 	    Struct = "", Event = "", Operator = "", TypeParameter = "",
 	  }

@@ -5,6 +5,7 @@ require 'which-key'.add({
   { "<leader>fh", "<cmd>Telescope help_tags<cr>", desc = "Help" },
   { "<leader>fp", "<CMD>lua require'telescope'.extensions.project.project{}<CR>", desc = "Project"},
   { "<leader>fr", "<CMD>Telescope zotero<CR>", desc = "Zotero Reference"},
+  { "<leader>fe", "<cmd>lua require('swenv.api').pick_venv()<cr>", desc = "Python Env" },
   { "<leader>t", group = "Toggle"},
 })
 
