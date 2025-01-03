@@ -6,6 +6,7 @@ return {
     'hrsh7th/cmp-buffer',
     'hrsh7th/cmp-path',
     'kdheepak/cmp-latex-symbols',
+    'jmbuhr/cmp-pandoc-references',
   },
   opts = function ()
     local cmp = require('cmp')
@@ -18,12 +19,14 @@ return {
 	{ name = 'buffer'},
 	{ name = 'path'},
 	{ name = 'latex_symbols' },
+        { name = 'pandoc_references' },
+	{ name = 'otter' },
       },
       mapping = cmp.mapping.preset.insert {
 	['<C-Space>'] = cmp.mapping.complete {},
-	['<C-y>'] = cmp.mapping.confirm { select = true },
 	['<C-n>'] = cmp.mapping.select_next_item(),
 	['<C-p>'] = cmp.mapping.select_prev_item(),
+	['<C-y>'] = cmp.mapping.confirm { select = true },
 	['<Right>'] = cmp.mapping(function(fallback)
 	  if cmp.visible() then
 	    cmp.abort()
@@ -50,6 +53,8 @@ return {
 	    buffer = "[Buffer]",
 	    path = "[Path]",
 	    latex_symbols = "[TeX]",
+	    pandoc_references = '[ref]',
+	    otter = '[otter]',
 	  })[entry.source.name]
 	  return item
 	end,

@@ -15,6 +15,7 @@ return {
 	}
       },
       lualine_y = {
+	'filetype'
       },
       lualine_z = {
 	{ "location", separator = " /", padding = { left = 0, right = 0 } }, "vim.fn.line('$')"

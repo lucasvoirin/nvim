@@ -6,13 +6,19 @@ require 'which-key'.add({
   { "<leader>fp", "<CMD>lua require'telescope'.extensions.project.project{}<CR>", desc = "Project"},
   { "<leader>fr", "<CMD>Telescope zotero<CR>", desc = "Zotero Reference"},
   { "<leader>fe", "<cmd>lua require('swenv.api').pick_venv()<cr>", desc = "Python Env" },
+  { "<leader>a", "<CMD>AerialToggle float<CR>", desc = "Aerial"},
+  { "<leader>n", "<CMD>AerialNavToggle<CR>", desc = "Navigation"},
   { "<leader>t", group = "Toggle"},
 })
 
--- Toggle light/dark theme
+-- Snacks Toggle
 Snacks.toggle.option("background", { off = "dark", on = "light" , name = "Light Background"}):map("<leader>tb")
 Snacks.toggle.diagnostics():map("<leader>td")
 Snacks.toggle.option("relativenumber", { name = "Relative Number" }):map("<leader>tl")
+Snacks.toggle.zen():map("<leader>tz")
+
+-- Misc
+vim.keymap.set({"i", "n"}, "<C-^>", "<CMD>Telescope zotero<CR>", { silent = true })
 
 -- Resize with arrows
 vim.keymap.set("n", "<C-Up>", ":resize -2<CR>", { silent = true })
