@@ -1,9 +1,6 @@
 -- Set color theme
 vim.cmd.colorscheme 'tokyonight-moon'
 
--- Load Telescope extensions
-require'telescope'.load_extension('project')
-
 -- Highlight yanked text
 vim.api.nvim_create_autocmd("TextYankPost", {
 	desc = "Highlight when yanking (copying) text",

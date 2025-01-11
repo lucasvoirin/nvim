@@ -4,4 +4,4 @@ require 'config.keymaps'
 require 'config.autocmds'
 
 require 'custom.floating-terminal'
---require 'custom.repl'
+require 'custom.repl'

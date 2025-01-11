@@ -4,7 +4,7 @@ return {
     sections = {
       lualine_c = {
 	{ "filetype", icon_only = true, separator = "", padding = { left = 1, right = 0 }},
-	{ "filename", padding = { left = 0, right = 1 } , show_modified_status = true },
+	{ "filename",path = 0, padding = { left = 0, right = 1 } , show_modified_status = true },
       },
       lualine_x = {
 	{
@@ -14,9 +14,7 @@ return {
 	  color = { fg = "#8fb55e" }
 	}
       },
-      lualine_y = {
-	'filetype'
-      },
+      lualine_y = {},
       lualine_z = {
 	{ "location", separator = " /", padding = { left = 0, right = 0 } }, "vim.fn.line('$')"
       },

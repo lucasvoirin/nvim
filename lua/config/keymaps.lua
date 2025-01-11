@@ -1,9 +1,10 @@
 require 'which-key'.add({
   { "<leader>o", "<CMD>lua require('oil').toggle_float()<CR>", desc = "Oil"},
   { "<leader>g", "<CMD>lua Snacks.lazygit.open(opts)<CR>", desc = "Lazygit"},
+  { "<leader>;", "<CMD>lua Snacks.dashboard.open()<CR>", desc = "Dashboard"},
+  { "<leader>b", "<cmd>Telescope buffers<cr>", desc = "Buffers" },
   { "<leader>f", group = "Find"},
   { "<leader>fh", "<cmd>Telescope help_tags<cr>", desc = "Help" },
-  { "<leader>fp", "<CMD>lua require'telescope'.extensions.project.project{}<CR>", desc = "Project"},
   { "<leader>fr", "<CMD>Telescope zotero<CR>", desc = "Zotero Reference"},
   { "<leader>fe", "<cmd>lua require('swenv.api').pick_venv()<cr>", desc = "Python Env" },
   { "<leader>a", "<CMD>AerialToggle float<CR>", desc = "Aerial"},
@@ -44,3 +45,5 @@ vim.keymap.set("n", "<C-h>", "<C-w><C-h>", { desc = "Move focus to the left wind
 vim.keymap.set("n", "<C-l>", "<C-w><C-l>", { desc = "Move focus to the right window" })
 vim.keymap.set("n", "<C-j>", "<C-w><C-j>", { desc = "Move focus to the lower window" })
 vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper window" })
+
+vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "Go to definition" })

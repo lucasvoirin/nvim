@@ -1,4 +1,4 @@
-# nvim data science ide config
+# NEOVIM Data Science IDE
 
 This is my Neovim config! It is built from scratch but heavily inspired by [nvim-lua/kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim),
 [quarto-nvim-kickstarter](https://github.com/jmbuhr/quarto-nvim-kickstarter) and [LazyVim](http://www.lazyvim.org/).
@@ -18,7 +18,7 @@ I'm using Neovim as an IDE for data science (with R, Python and Julia) and writi
 │   ├── plugins
 │   │    └── ...
 │   └── custom
-│        └── floating-terminal.lua
+│        └── ...
 ├── init.lua
 └── README.md
 ```
@@ -54,7 +54,6 @@ Here is a list of main plugins:
 | [tokyonight](https://github.com/folke/tokyonight.nvim)                        | color theme       |
 | [noice](https://github.com/folke/noice.nvim)                                  | improved ui       |
 | [snacks](https://github.com/folke/snacks.nvim)                                | misc utilities    |
-| [telescope-project](https://github.com/nvim-telescope/telescope-project.nvim) | project manager   |
 | [nvim-cmp](https://github.com/hrsh7th/nvim-cmp)                               | completion engine |
 
 ### Custom
@@ -89,9 +88,8 @@ This section is used as a roadmap.
 |`<space>o`  | Open Oil                 |
 |`<space>g`  | Open LazyGit             |
 |`<space>fh` | Find Help                |
-|`<space>fp` | Find Project             |
 |`<space>fr` | Find Zotero Reference    |
-|`<c-\>`     | Toggle Floating Terminal |
+|`<c-^>`     | Toggle Floating Terminal |
 |`<space>tb` | Toggle Light Background  |
 |`<space>tl` | Toggle Relative Number   |
 |`<space>td` | Toggle LSP Diagnostics   |

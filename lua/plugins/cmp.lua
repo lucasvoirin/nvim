@@ -22,6 +22,11 @@ return {
         { name = 'pandoc_references' },
 	{ name = 'otter' },
       },
+        window = {
+          documentation = {
+            border =  { '╭', '─', '╮', '│', '╯', '─', '╰', '│' },
+          },
+        },
       mapping = cmp.mapping.preset.insert {
 	['<C-Space>'] = cmp.mapping.complete {},
 	['<C-n>'] = cmp.mapping.select_next_item(),
@@ -42,7 +47,7 @@ return {
 	format = function(entry, item)
 	  local icons = {
 	    Text = "", Method = "", Function = "󰊕", Constructor = "", Field = "",
-    	    Variable = "", Class = "", Interface = "", Module = "", Property = "",
+    	    Variable = "󰫧", Class = "", Interface = "", Module = "", Property = "",
 	    Unit = "", Value = "", Enum = "", Keyword = "", Snippet = "", Color = "",
 	    File = "", Reference = "", Folder = "", EnumMember = "", Constant = "π",
 	    Struct = "", Event = "", Operator = "", TypeParameter = "",
