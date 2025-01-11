@@ -4,22 +4,24 @@ This is my Neovim config! It is built from scratch but heavily inspired by [nvim
 [quarto-nvim-kickstarter](https://github.com/jmbuhr/quarto-nvim-kickstarter) and [LazyVim](http://www.lazyvim.org/).
 
 I'm using Neovim as an IDE for data science (with R, Python and Julia) and writing (with LaTeX and Quarto).
+This config aims to be visually appealing, offer only essential features, and minimize the number of plugins used.
 
 ## Structure
 
 ```plaintext
-~/.config/nvim
-├── lua
-│   ├── config
+~/.config/nvim/
+├── lua/
+│   ├── config/
 │   │   ├── autocmds.lua
 │   │   ├── keymaps.lua
 │   │   ├── lazy.lua
 │   │   └── options.lua
-│   ├── plugins
-│   │    └── ...
-│   └── custom
-│        └── ...
+│   ├── plugins/
+│   └── custom/
+├── after/
+│   └── ftplugins/
 ├── init.lua
+├── lazy-lock.json
 └── README.md
 ```
 
@@ -65,6 +67,12 @@ Here is a list of custom features:
 | File                    | Description                                      |
 |-------------------------|--------------------------------------------------|
 | `floating-terminal.lua` | Add a terminal popup accessible anywhere anytime |
+| `repl.lua`              | Add a repl Vsplit to run commands from scripts   |
+
+### File Type Options
+
+Some options and configurations are set for specific file types. Those configurations are in the `./after/ftplugin/` directory.
+Lua files in this directory are executed after the rest of the configuration.
 
 ## Usage
 
@@ -93,4 +101,5 @@ This section is used as a roadmap.
 |`<space>tb` | Toggle Light Background  |
 |`<space>tl` | Toggle Relative Number   |
 |`<space>td` | Toggle LSP Diagnostics   |
+|`<space>tz` | Toggle zen mode          |
 

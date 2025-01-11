@@ -2,7 +2,7 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 vim.opt.title = true
-vim.opt.titlestring = "NEOVIM"
+vim.opt.titlestring="NEOVIM"
 
 vim.opt.number = true
 vim.opt.cursorline = true
