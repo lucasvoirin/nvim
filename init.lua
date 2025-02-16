@@ -5,3 +5,4 @@ require 'config.autocmds'
 
 require 'custom.floating-terminal'
 require 'custom.repl'
+require 'custom.biblio-notes'

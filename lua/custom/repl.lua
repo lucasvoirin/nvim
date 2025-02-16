@@ -66,7 +66,7 @@ local function send_line_to_terminal()
   send_to_terminal(line)
 end
 
--- sending visual selection
+-- sending yanked text 
 local function yank_and_send_to_terminal()
   vim.cmd('normal! "zy')
   local yanked_text = vim.fn.getreg("z")
@@ -78,7 +78,18 @@ local function yank_and_send_to_terminal()
   end
 end
 
+-- sending visual selection
+local function send_selection_to_terminal()
+  local mode = vim.api.nvim_get_mode().mode
+  if mode == "V" then
+    yank_and_send_to_terminal()
+    send_to_terminal("")
+  else
+    yank_and_send_to_terminal()
+  end
+end
+
 -- keymaps
 vim.keymap.set({"n", "i", "t"}, "<c-\\>", ToggleVsplitTerminal, { noremap = true, silent = true })
-vim.keymap.set("n", "<c-e>", send_line_to_terminal, { noremap = true, silent = true })
-vim.keymap.set("v", "<c-e>", yank_and_send_to_terminal, { noremap = true, silent = true })
+vim.keymap.set("n", "<c-s>", send_line_to_terminal, { noremap = true, silent = true })
+vim.keymap.set("v", "<c-s>", send_selection_to_terminal, { noremap = true, silent = true })
