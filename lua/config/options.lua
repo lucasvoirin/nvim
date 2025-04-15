@@ -1,8 +1,14 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
+function _G.CurrentDirName()
+  return vim.fn.fnamemodify(vim.fn.getcwd(), ":t")
+end
+
 vim.opt.title = true
-vim.opt.titlestring="NEOVIM"
+-- vim.opt.titlestring="NEOVIM"
+
+vim.o.titlestring = "NEOVIM - %{v:lua.CurrentDirName()}"
 
 vim.opt.number = true
 vim.opt.cursorline = true

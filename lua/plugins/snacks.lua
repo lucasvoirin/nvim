@@ -8,7 +8,7 @@ return {
       sections = {
 	{ icon = " ", title = "Recent Directories", section = "projects", indent = 2, padding = 1 },
 	{ icon = " ", title = "Recent Files", section = "recent_files", indent = 2, padding = 1 },
-	},
+      },
     },
     indent = { enabled = true },
     notifier = { enabled = true },
