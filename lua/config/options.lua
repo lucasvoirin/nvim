@@ -7,8 +7,12 @@ end
 
 vim.opt.title = true
 -- vim.opt.titlestring="NEOVIM"
+vim.o.titlestring = "NEOVIM ⋅ %{v:lua.CurrentDirName()}"
 
-vim.o.titlestring = "NEOVIM - %{v:lua.CurrentDirName()}"
+vim.opt.wrap = true
+vim.opt.linebreak = true
+vim.opt.textwidth = 0
+vim.opt.colorcolumn = ""
 
 vim.opt.number = true
 vim.opt.cursorline = true
