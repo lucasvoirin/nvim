@@ -15,7 +15,23 @@ return {
       },
       lualine_x = {
 	{
-	  "swenv",
+function()
+  local path = _G.python_env and _G.python_env.path or ""
+  if path == "" then return "" end
+  local name = path:match("%.venv/([^/]+)/bin/")
+  if name then
+    return name .. " (~/.venv)"
+  end
+  name = path:match("versions/([^/]+)/bin/")
+  if name then
+    return name .. " (pyenv)"
+  end
+  if path:find("/%.venv/bin/") or path:find("\\.venv\\Scripts\\") then
+    return ".venv (local)"
+  end
+  name = vim.fn.fnamemodify(path, ":t")
+  return name .. " (system)"
+end,
 	  cond = function() return vim.bo.filetype == "python" end,
 	  icon = "[]",
 	  color = { fg = "#8fb55e" }

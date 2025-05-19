@@ -9,7 +9,7 @@ require 'which-key'.add({
   { "<leader>f", group = "Find"},
   { "<leader>fh", "<cmd>Telescope help_tags<cr>", desc = "Help" },
   { "<leader>fr", "<CMD>Telescope zotero<CR>", desc = "Zotero Reference"},
-  { "<leader>fe", "<cmd>lua require('swenv.api').pick_venv()<cr>", desc = "Python Env" },
+  { "<leader>fe", "<cmd>SelectVenv<cr>", desc = "Python Env" },
   { "<leader>fc", "<cmd>lua require'telescope.builtin'.find_files {cwd = vim.fn.stdpath 'config'}<cr>", desc = "Config" },
   { "<leader>t", group = "Toggle"},
 })

@@ -46,7 +46,7 @@ return {
 	fields = { "abbr", "menu", "kind" },
 	format = function(entry, item)
 	  local icons = {
-	    Text = "", Method = "", Function = "󰊕", Constructor = "", Field = "",
+	    Text = "", Method = "󰡱", Function = "󰊕", Constructor = "󱁤", Field = "",
     	    Variable = "󰫧", Class = "", Interface = "", Module = "", Property = "",
 	    Unit = "", Value = "", Enum = "", Keyword = "", Snippet = "", Color = "",
 	    File = "", Reference = "", Folder = "", EnumMember = "", Constant = "π",
