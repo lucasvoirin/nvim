@@ -38,8 +38,9 @@ vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" }
 -- vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
 -- vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
 -- vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
-vim.keymap.set('n','<C-Z>','')
 
+-- Disable ctrl+z
+vim.keymap.set('n','<C-Z>','')
 
 -- Windows navigation
 vim.keymap.set("n", "<C-h>", "<C-w><C-h>", { desc = "Move focus to the left window" })
@@ -47,5 +48,13 @@ vim.keymap.set("n", "<C-l>", "<C-w><C-l>", { desc = "Move focus to the right win
 vim.keymap.set("n", "<C-j>", "<C-w><C-j>", { desc = "Move focus to the lower window" })
 vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper window" })
 
+-- Buffers navigation
+vim.keymap.set("n", "<Tab>", ":bn<CR>", { desc = "Move focus to the next buffer" })
+vim.keymap.set("n", "<S-Tab>", ":b#<CR>", { desc = "Move focus to the last used buffer" })
+
 -- LSP
 vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "Go to definition" })
+
+-- Text editing
+vim.keymap.set("v", "<", "<gv", {desc = "Move text to the left"})
+vim.keymap.set("v", ">", ">gv", {desc = "Move text to the right"})
