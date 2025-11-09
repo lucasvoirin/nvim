@@ -34,10 +34,22 @@ vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
 
 -- Disable arrow keys in normal mode
--- vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
--- vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
--- vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
--- vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
+vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
+vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
+vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
+vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
+vim.keymap.set('v', '<left>', '<cmd>echo "Use h to move!!"<CR>')
+vim.keymap.set('v', '<right>', '<cmd>echo "Use l to move!!"<CR>')
+vim.keymap.set('v', '<up>', '<cmd>echo "Use k to move!!"<CR>')
+vim.keymap.set('v', '<down>', '<cmd>echo "Use j to move!!"<CR>')
+
+vim.keymap.set('v', '<S-left>', '<cmd>echo "Use h to move!!"<CR>')
+vim.keymap.set('v', '<S-right>', '<cmd>echo "Use l to move!!"<CR>')
+vim.keymap.set('v', '<S-up>', '<cmd>echo "Use k to move!!"<CR>')
+vim.keymap.set('v', '<S-down>', '<cmd>echo "Use j to move!!"<CR>')
+
+vim.keymap.set('v', '<S-j>', '<cmd>echo "Use j to move!!"<CR>')
+vim.keymap.set('n', '<S-j>', '<cmd>echo "Use j to move!!"<CR>')
 
 -- Disable ctrl+z
 vim.keymap.set('n','<C-Z>','')

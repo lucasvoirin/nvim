@@ -1,6 +1,10 @@
 local lspconfig = require('lspconfig')
 local util = require('lspconfig.util')
 
+
+local repl = require("custom.repl")
+local send_to_terminal = repl.send_to_terminal
+
 _G.python_env = {
   path = "/usr/bin/python3"
 }
@@ -79,6 +83,7 @@ local function select_venv()
     format_item = function(item) return item.label end,
   }, function(choice)
     if choice then
+			send_to_terminal("source " .. choice.path:gsub("/bin/python$", "/bin/activate"))
       python_env.path = choice.path
       print("Environnement Python sélectionné :", choice.label)
       vim.cmd("LspRestart")

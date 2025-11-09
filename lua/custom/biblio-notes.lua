@@ -65,47 +65,50 @@ end
 ---Tries to identify the ref under cursor
 ---@return string|nil #Nil if nothing is found, otherwise is the identified ref
 local function get_ref_under_cursor()
-  -- local start_str = get_cite_format.start_str
-  -- local ref_prefix = get_cite_format.ref_prefix
-local cite_format = get_cite_format()
-local start_str = cite_format.start_str
-local ref_prefix = cite_format.ref_prefix
-  -- get current line and cursor position
+  local cite_format = get_cite_format()
   local current_line = vim.api.nvim_get_current_line()
-  local _, cursor_col = unpack(vim.api.nvim_win_get_cursor(0))
+  local cursor_col = vim.api.nvim_win_get_cursor(0)[2] + 1 -- Lua index starts at 1
 
-  -- Find the start and end of the word under the cursor
+  -- Chercher tous les blocs \command{ref1,ref2}
+  for start_pos, command, refs in current_line:gmatch("()\\(%a+)%s*{([^}]+)}") do
+    local cite_block_end = start_pos + #command + 1 + #refs + 2 -- \ + command + {refs}
+
+    if cursor_col >= start_pos and cursor_col <= cite_block_end then
+      local all_refs = {}
+      for ref in refs:gmatch("([^,%s]+)") do
+        table.insert(all_refs, ref)
+      end
+
+      if #all_refs > 0 then
+        if #all_refs == 1 then
+          return all_refs[1]
+        else
+          print("Plusieurs refs trouvées, ouverture de la première: " .. all_refs[1])
+          return all_refs[1]
+        end
+      end
+    end
+  end
+
+  -- Fallback générique
   local line_until_cursor = current_line:sub(1, cursor_col)
   local word_start_col = line_until_cursor:find("[^%s,;]*$") or 1
   local line_after_cursor = current_line:sub(cursor_col)
   local word_end_col = cursor_col + (line_after_cursor:find("[%s,;%]]") or #line_after_cursor) - 1
-
-  -- Extract the word
   local ref = current_line:sub(word_start_col, word_end_col)
 
-  -- if we found the cite_format prefix in the string, we need to strip it
-  if start_str then
-    local escaped_start_str = start_str:gsub("%W", "%%%0")
-    local _, ref_start = string.find(ref, escaped_start_str)
-    if ref_start then
-      ref = string.sub(ref, ref_start + 1)
-    end
-  end
-  -- if we found the ref_prefix in the string, we need to strip it
+  -- nettoyage du prefix
+  local ref_prefix = cite_format.ref_prefix
   if ref_prefix then
     local escaped_ref_prefix = ref_prefix:gsub("%W", "%%%0")
     local _, ref_start = string.find(ref, escaped_ref_prefix)
     if ref_start then
-      ref_start = ref_start + 1
-      ref = string.sub(ref, ref_start)
+      ref = string.sub(ref, ref_start + 1)
     end
   end
 
-  -- remove all punctuation characters and white space at the beginning and end of string
   ref = ref:gsub("^[%p%s]*(.-)[%p%s]*$", "%1")
 
-  print("Ref: " .. ref)
-  
   return ref
 end
 
@@ -121,6 +124,15 @@ local function open_ref_obsidian()
   open_obsidian_note(vault,note)
 end
 
-vim.keymap.set("n", "gr", get_ref_under_cursor, { desc = "Get reference" })
+vim.keymap.set("n", "gbbt", function()
+  local ref = get_ref_under_cursor()
+  if ref then
+    print("Ref: " .. ref)
+  else
+    print("Aucune référence trouvée")
+  end
+end, { desc = "Afficher la référence sous le curseur" })
+
+
 vim.keymap.set("n", "go", open_ref_obsidian, { desc = "Open ref in obsidian" })
 

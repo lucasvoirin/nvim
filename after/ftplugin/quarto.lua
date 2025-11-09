@@ -73,3 +73,27 @@ vim.api.nvim_create_autocmd({ 'ModeChanged', 'BufWrite' }, {
   buffer = buf,
   callback = highlight_cells,
 })
+
+-- Fonction qui ajoute la règle + style
+local function define_quarto_block_highlight()
+  vim.cmd("syntax match QuartoBlock /^:::\\s*.*$/ containedin=ALL")
+  vim.cmd("syntax match QuartoBlock /^:::\\s*$/ containedin=ALL")
+  vim.api.nvim_set_hl(0, "QuartoBlock", {link = "Statement"})
+end
+
+-- Exécute après chargement du buffer
+vim.defer_fn(function()
+  vim.cmd("syntax enable")
+  define_quarto_block_highlight()
+end, 50)
+
+-- Redéfinit le groupe de couleur à chaque changement de colorscheme
+vim.api.nvim_create_autocmd("ColorScheme", {
+  group = vim.api.nvim_create_augroup("QuartoSimpleBlockHighlight", { clear = true }),
+  callback = function()
+    -- refaire le highlight après un court délai
+    vim.defer_fn(function()
+      define_quarto_block_highlight()
+    end, 50)
+  end,
+})
