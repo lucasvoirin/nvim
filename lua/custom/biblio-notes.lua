@@ -1,138 +1,157 @@
+-- Manage citation formats for different filetypes
 local cite_formats = {
-    tex = {
-      start_str = [[\cite{]],
-      end_str = "}",
-      separator_str = ", ",
-    },
-    markdown = {
-      ref_prefix = "@",
-      separator_str = "; "
-    },
-    rmd = {
-      ref_prefix = "@",
-      separator_str = "; "
-    },
-    plain = {
-      separator_str = ", "
-    },
-    org = {
-      start_str = "[cite:",
-      end_str = "]",
-      ref_prefix = "@",
-      separator_str = ";",
-    },
-    norg = {
-      start_str = "{= ",
-      end_str = "}",
-      separator_str = "; ",
-    },
-    typst = {
-      ref_prefix = "@",
-      separator_str = " ",
-    },
-  }
+  tex = {
+    start_str = [[\cite{]],
+    end_str = "}",
+    separator_str = ", ",
+  },
+  markdown = {
+    ref_prefix = "@",
+    separator_str = "; ",
+  },
+  rmd = {
+    ref_prefix = "@",
+    separator_str = "; ",
+  },
+  plain = {
+    separator_str = ", ",
+  },
+  org = {
+    start_str = "[cite:",
+    end_str = "]",
+    ref_prefix = "@",
+    separator_str = ";",
+  },
+  norg = {
+    start_str = "{= ",
+    end_str = "}",
+    separator_str = "; ",
+  },
+  typst = {
+    ref_prefix = "@",
+    separator_str = " ",
+  },
+}
 
 local cite_formats_fallback = "plain"
 local always_use_plain = false
 
-
-
----Get the cite_format for the current filetype
----@return table #cite_format to be used for the filetype. If table, then first is for inserting, second for parsing
+-- Get citation format for current filetype
 local function get_cite_format()
   local filetype = vim.bo.filetype
-
-  -- local cite_formats = self.cite_formats
-  -- local cite_formats_fallback = self.cite_formats_fallback
-
-  local fallback = {
-    separator_str = ", "
-  }
+  local fallback = { separator_str = ", " }
 
   if always_use_plain then
-    local cite_format = cite_formats.plain or fallback
-    return cite_format
+    return cite_formats.plain or fallback
   else
-    local cite_format = cite_formats[filetype] or cite_formats[cite_formats_fallback]
-    return cite_format
+    return cite_formats[filetype] or cite_formats[cite_formats_fallback]
   end
 end
 
-
-
-
-
----Tries to identify the ref under cursor
----@return string|nil #Nil if nothing is found, otherwise is the identified ref
+-- Get citation key under cursor
 local function get_ref_under_cursor()
   local cite_format = get_cite_format()
-  local current_line = vim.api.nvim_get_current_line()
-  local cursor_col = vim.api.nvim_win_get_cursor(0)[2] + 1 -- Lua index starts at 1
+  local line = vim.api.nvim_get_current_line()
+  local cursor_col = vim.api.nvim_win_get_cursor(0)[2] + 1
 
-  -- Chercher tous les blocs \command{ref1,ref2}
-  for start_pos, command, refs in current_line:gmatch("()\\(%a+)%s*{([^}]+)}") do
-    local cite_block_end = start_pos + #command + 1 + #refs + 2 -- \ + command + {refs}
+  -- Check LaTeX style citations \cite{key1, key2}
+  for start_pos, command, refs in line:gmatch("()\\(%a+)%s*{([^}]+)}") do
+    local block_start = start_pos
+    local block_end = start_pos + #command + 1 + #refs + 2
 
-    if cursor_col >= start_pos and cursor_col <= cite_block_end then
-      local all_refs = {}
+    if cursor_col >= block_start and cursor_col <= block_end then
+      local refs_start = block_start + #command + 2
+      local i = 0
       for ref in refs:gmatch("([^,%s]+)") do
-        table.insert(all_refs, ref)
-      end
-
-      if #all_refs > 0 then
-        if #all_refs == 1 then
-          return all_refs[1]
-        else
-          print("Plusieurs refs trouvées, ouverture de la première: " .. all_refs[1])
-          return all_refs[1]
+        local s, e = refs:find(ref, i + 1, true)
+        i = e or i
+        if s and e then
+          local abs_start = refs_start + s - 1
+          local abs_end = refs_start + e - 1
+          if cursor_col >= abs_start and cursor_col <= abs_end then
+            if cite_format.ref_prefix then
+              ref = ref:gsub("^" .. vim.pesc(cite_format.ref_prefix), "")
+            end
+            return ref
+          end
         end
       end
+
+      -- If cursor inside block but not on a key, return first key
+      local first_ref = refs:match("([^,%s]+)")
+      if first_ref then
+        if cite_format.ref_prefix then
+          first_ref = first_ref:gsub("^" .. vim.pesc(cite_format.ref_prefix), "")
+        end
+        return first_ref
+      end
     end
   end
 
-  -- Fallback générique
-  local line_until_cursor = current_line:sub(1, cursor_col)
-  local word_start_col = line_until_cursor:find("[^%s,;]*$") or 1
-  local line_after_cursor = current_line:sub(cursor_col)
-  local word_end_col = cursor_col + (line_after_cursor:find("[%s,;%]]") or #line_after_cursor) - 1
-  local ref = current_line:sub(word_start_col, word_end_col)
-
-  -- nettoyage du prefix
-  local ref_prefix = cite_format.ref_prefix
-  if ref_prefix then
-    local escaped_ref_prefix = ref_prefix:gsub("%W", "%%%0")
-    local _, ref_start = string.find(ref, escaped_ref_prefix)
-    if ref_start then
-      ref = string.sub(ref, ref_start + 1)
+  -- Check Markdown / Pandoc style citations [@key1; @key2]
+  for start_pos, refs in line:gmatch("()%[@([^%]]+)%]") do
+    local block_end = start_pos + #refs + 3
+    if cursor_col >= start_pos and cursor_col <= block_end then
+      for ref in refs:gmatch("@([^,%s;]+)") do
+        local s, e = refs:find("@" .. ref, 1, true)
+        if s and e then
+          local abs_start = start_pos + s
+          local abs_end = start_pos + e
+          if cursor_col >= abs_start and cursor_col <= abs_end then
+            return ref
+          end
+        end
+      end
+      -- If cursor inside block but not on a key, return first
+      local first_ref = refs:match("@([^,%s;]+)")
+      if first_ref then
+        return first_ref
+      end
     end
   end
 
-  ref = ref:gsub("^[%p%s]*(.-)[%p%s]*$", "%1")
-
-  return ref
+  -- No reference found
+  return nil
 end
 
-local function open_obsidian_note(vault,note)
+-- Open a note in Obsidian for a given reference
+local function open_obsidian_note(vault, note)
   local uri = "obsidian://open?vault=" .. vault .. "&file=Papers/@" .. note
-  print(uri)
-  vim.fn.jobstart({"xdg-open", uri}, {detach = true})
+  local open_cmd
+  if vim.fn.has("macunix") == 1 then
+    open_cmd = "open"
+  elseif vim.fn.has("win32") == 1 then
+    open_cmd = "start"
+  else
+    open_cmd = "xdg-open"
+  end
+  vim.fn.jobstart({ open_cmd, uri }, { detach = true })
 end
 
+-- Main function to open reference under cursor
 local function open_ref_obsidian()
   local note = get_ref_under_cursor()
+  if not note or note == "" then
+    vim.notify("No reference detected under cursor.", vim.log.levels.WARN)
+    return
+  end
   local vault = "Doctorat"
-  open_obsidian_note(vault,note)
+  open_obsidian_note(vault, note)
 end
 
+-- Keymaps
 vim.keymap.set("n", "gbbt", function()
   local ref = get_ref_under_cursor()
   if ref then
-    print("Ref: " .. ref)
+    vim.notify("Reference: " .. ref, vim.log.levels.INFO)
   else
-    print("Aucune référence trouvée")
+    vim.notify("No reference detected under cursor.", vim.log.levels.WARN)
   end
-end, { desc = "Afficher la référence sous le curseur" })
+end, { desc = "Show reference under cursor" })
 
+vim.keymap.set("n", "go", open_ref_obsidian, { desc = "Open reference in Obsidian" })
 
-vim.keymap.set("n", "go", open_ref_obsidian, { desc = "Open ref in obsidian" })
-
+-- Optional user command
+vim.api.nvim_create_user_command("OpenRef", open_ref_obsidian, {
+  desc = "Open the reference under cursor in Obsidian",
+})

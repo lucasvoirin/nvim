@@ -19,7 +19,7 @@ return {
 	{ name = 'buffer'},
 	{ name = 'path'},
 	{ name = 'latex_symbols' },
-        { name = 'pandoc_references' },
+  { name = 'pandoc_references' },
 	{ name = 'otter' },
       },
         window = {
