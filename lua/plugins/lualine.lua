@@ -26,8 +26,17 @@ function()
   if name then
     return name .. " (pyenv)"
   end
-  if path:find("/%.venv/bin/") or path:find("\\.venv\\Scripts\\") then
+  if path:find("/%.venv/bin/") then
     return ".venv (local)"
+  end
+  if path:find("/%env/bin/") then
+    return ".venv (local)"
+  end
+  if path:find("/%.env/bin/") then
+    return ".venv (local)"
+  end
+  if path:find("/%venv/bin/") then
+    return "venv (local)"
   end
   name = vim.fn.fnamemodify(path, ":t")
   return name .. " (system)"

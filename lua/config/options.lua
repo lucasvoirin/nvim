@@ -7,7 +7,7 @@ end
 
 vim.opt.title = true
 -- vim.opt.titlestring="NEOVIM"
-vim.o.titlestring = "NEOVIM ⋅ %{v:lua.CurrentDirName()}"
+vim.o.titlestring = "%{v:lua.CurrentDirName()}"
 
 vim.opt.wrap = true
 vim.opt.linebreak = true

@@ -1,7 +1,6 @@
 local lspconfig = require('lspconfig')
 local util = require('lspconfig.util')
 
-
 local repl = require("custom.repl")
 local send_to_terminal = repl.send_to_terminal
 
@@ -9,9 +8,10 @@ _G.python_env = {
   path = "/usr/bin/python3"
 }
 
-local function get_local_venv_python()
+local function get_local_venv_python(dirname)
+  dirname = dirname or ".venv"
   local cwd = vim.fn.getcwd()
-  local local_venv = cwd .. "/.venv"
+  local local_venv = cwd .. "/" .. dirname
   local path_unix = local_venv .. "/bin/python"
   local path_win = local_venv .. "/Scripts/python.exe"
 
@@ -43,6 +43,17 @@ local function scandir(directory)
   return files
 end
 
+-- 👇 AJOUT : fonction pour redémarrer proprement le LSP
+local function restart_lsp_clients(name)
+  local clients = vim.lsp.get_clients({ name = name })
+  for _, client in ipairs(clients) do
+    vim.lsp.stop_client(client.id, true)
+  end
+  vim.defer_fn(function()
+    vim.cmd("edit")
+  end, 200)
+end
+
 local function select_venv()
   local home = os.getenv("HOME")
   local base_venv_dir = home .. "/.venv"
@@ -58,16 +69,14 @@ local function select_venv()
     end
   end
 
-  -- .venv local
-  add_choice(".venv (local)", get_local_venv_python())
+  add_choice(".venv (local)", get_local_venv_python(".venv"))
+  add_choice("venv (local)", get_local_venv_python("venv"))
 
-  -- ~/.venv/*
   for _, name in ipairs(scandir(base_venv_dir)) do
     local p = base_venv_dir .. "/" .. name .. "/bin/python"
     add_choice(name .. " (~/.venv)", p)
   end
 
-  -- pyenv versions
   for _, name in ipairs(scandir(pyenv_dir)) do
     local p = pyenv_dir .. "/" .. name .. "/bin/python"
     add_choice(name .. " (pyenv)", p)
@@ -83,10 +92,10 @@ local function select_venv()
     format_item = function(item) return item.label end,
   }, function(choice)
     if choice then
-			send_to_terminal("source " .. choice.path:gsub("/bin/python$", "/bin/activate"))
+      send_to_terminal("source " .. choice.path:gsub("/bin/python$", "/bin/activate"))
       python_env.path = choice.path
       print("Environnement Python sélectionné :", choice.label)
-      vim.cmd("LspRestart")
+      restart_lsp_clients("pyright")  -- 👈 REMPLACEMENT ICI
     else
       print("Aucun environnement sélectionné")
     end
